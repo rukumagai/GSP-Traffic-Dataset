@@ -22,7 +22,8 @@ SUMOを用いたデータセット作成の流れを解説します。
 
 - `python tools/xml/xml2csv.py data_hoge/queue.xml`を実行すればxmlファイルをcsvファイルに変換することができる。
 
-- `python　tools/visualization/plot_net_trafficLights.py -n data_hoge/osm.net.xml --xlim 0,12000 --ylim 0,10000 --edge-width .5 --xticks 16 --yticks 16 --xlabel m --ylabel m --xlabelsize 16 --ylabelsize 16 --width 5 --edge-color #606060 -o data_hoge/traffic_image.png`を実行すれば信号のある交差点をプロットできる。
+- `python　tools/visualization/plot_net_trafficLights.py -n data_hoge/osm.net.xml --xlim 0,12000 --ylim 0,10000 --edge-width .5 --xticks 16 --yticks 16 
+--xlabel m --ylabel m --xlabelsize 16 --ylabelsize 16 --width 5 --edge-color #606060 -o data_hoge/traffic_image.png`を実行すれば信号のある交差点をプロットできる。
 
 - `RandomTrips.py`というファイルで交通需要は定義されている．-eという引数でオプションを設定し変更できるが，今回全てのファイルに対して同様に終了時間を変更したいので，もうデフォルトを変更する
 
@@ -32,3 +33,5 @@ SUMOを用いたデータセット作成の流れを解説します。
 - `python 00mycode/`
 
 - `netconvert --sumo-net-file 00data/Japan_Osaka/osm.net.xml.gz -o 00data/Japan_Osaka/osm.net.xml.gz --numerical-ids.node-start 0`を実行すればノードの番号が変わる
+
+aaaa
