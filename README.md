@@ -1,30 +1,16 @@
-<<<<<<< HEAD
-<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<script type="text/x-mathjax-config">
- MathJax.Hub.Config({
- tex2jax: {
- inlineMath: [['$', '$'] ],
- displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
- }
- });
-</script>
-
 # GSP-Traffic Dataset
-=======
-# Dataset of time-varying graph signals 
 
-=============
->>>>>>> refs/remotes/origin/main
-
-作成者：熊谷塁 (r.kumagai@msp-lab.org)
+作成者：
+	[熊谷塁](<mailto:r.kumagai@msp-lab.org>)，
+	[小島颯](<mailto:h-kojima@msp-lab.org>)，
+	[東浩志](<mailto:higashi@comm.eng.osaka-u.ac.jp>)，
+	[田中雄一](<mailto:ytanaka@comm.eng.osaka-u.ac.jp>)
 
 ## Overview
 
-We propose GSP-Traffic Dataset, a large-scale time-varying graph signal dataset on simulated traffic networks. 
-Our dataset utilizes a traffic flow simulator and it contains graph signals across multiple cities, facilitating easy comparison of graph signal properties and features. 
-
-
+Data analysis on graphs, including graph signal processing and graph neural networks, is an emerging research field in signal processing and machine learning. 
+To quantitatively compare the performance of these methods, reliable datasets containing graphs as well as graph signals are required. 
+In this stwe propose GSP-Traffic Dataset, a large-scale time-varying graph signal dataset on simulated traffic networks. Our dataset utilizes a traffic flow simulator and it contains graph signals across multiple cities, facilitating easy comparison of graph signal properties and features. 
 
 
 

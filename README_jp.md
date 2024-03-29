@@ -31,12 +31,12 @@ git clone https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
 
 | Variable | Attributes | Shape |
 | -------: | :-------: | ----: |
-| ` N ` | 頂点数 | $ 1 $ |
-| ` T ` | 信号の時間 | $ 1 $ |
-| ` L ` | グラフラプラシアン | $ N \times N $ |
-| ` W ` | 重み付き隣接行列（重みは全て1） | $ N \times N $ |
-| ` data ` | 時変グラフ信号 | $ N \times T $ |
-| ` pos ` | 頂点の座標 (軽度，緯度) | $ N \times 2 $ | 
+| ` N ` | 頂点数 | $` 1 `$ |
+| ` T ` | 信号の時間 | $` 1 `$ |
+| ` L ` | グラフラプラシアン | $` N \times N `$ |
+| ` W ` | 重み付き隣接行列（重みは全て1） | $` N \times N `$ |
+| ` data ` | 時変グラフ信号 | $` N \times T `$ |
+| ` pos ` | 頂点の座標 (軽度，緯度) | $` N \times 2 `$ | 
 
 ## Examples
 
