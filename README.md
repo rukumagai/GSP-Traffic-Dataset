@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 <script type="text/x-mathjax-config">
@@ -10,6 +11,11 @@
 </script>
 
 # GSP-Traffic Dataset
+=======
+# Dataset of time-varying graph signals 
+
+=============
+>>>>>>> refs/remotes/origin/main
 
 作成者：熊谷塁 (r.kumagai@msp-lab.org)
 
