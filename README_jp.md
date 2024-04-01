@@ -50,9 +50,13 @@ git clone https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
 
 ### python(with [pygsp](https://pygsp.readthedocs.io/en/stable/))
 ```
+import os
 import numpy as np
 from pygsp import graphs
 
+
+files = [filename for filename in os.listdir('dataset') ]
+npz = np.load(os.path.join('dataset',files[i]))
 npz = np.load(filename)
 N,T,W,L,data,pos = npz['N'], npz['T'], npz['W'], npz['L'], npz['data'], npz['pos']
 G = graphs.Graph(W)
