@@ -27,7 +27,7 @@ git clone https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
 
 ## Attribute
 
-465都市それぞれに対して ``` country_city.npz ``` の形で，以下のデータが格納されています．
+465都市それぞれに対して ``` (country)_(city).npz ``` の形で，以下のデータが格納されています．
 
 | Variable | Attributes | Shape |
 | -------: | :-------: | ----: |
@@ -62,6 +62,22 @@ from util import draw_graph
 ```
 
 ### plotting
+
+Draw the graph G with matplotlib.
+
+You don't have to give `data` when you draw the graph G as a simple representation.
+If you want to draw the graph G reflecting signal values, you can give `data` 
+```
+draw_graph(G, pos, data<font color="Red">=None</font>)
+```
+
+| parameters:
+|	`G`:graph
+		A pygsp graph
+|	`pos`:
+|	`data`: 
+
+
 
 | How to call | Argument | Explanation |
 | ----------- | -------- | ----------- |

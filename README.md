@@ -1,10 +1,6 @@
 # GSP-Traffic Dataset
 
-作成者：
-	[熊谷塁](<mailto:r.kumagai@msp-lab.org>)，
-	[小島颯](<mailto:h-kojima@msp-lab.org>)，
-	[東浩志](<mailto:higashi@comm.eng.osaka-u.ac.jp>)，
-	[田中雄一](<mailto:ytanaka@comm.eng.osaka-u.ac.jp>)
+Authors : [Rui Kumagai](<mailto:r.kumagai@msp-lab.org>), [Hayate Kojima](<mailto:h-kojima@msp-lab.org>), [Hiroshi Higashi](<mailto:higashi@comm.eng.osaka-u.ac.jp>), and [Yuichi Tanaka](<mailto:ytanaka@comm.eng.osaka-u.ac.jp>)
 
 ## Overview
 
@@ -14,9 +10,9 @@ In this stwe propose GSP-Traffic Dataset, a large-scale time-varying graph signa
 
 
 
-## Download
+## Installation
 
-Access is possible by using a Git client to clone the repository at
+Access is possible to clone the git repository at
 ```
 git clone https://github.com/kumagai-r-ou/traffic-dataset-using-sumo
 ```
