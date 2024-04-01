@@ -48,10 +48,24 @@ draw_graph(G,data[:,0],pos)
 ## Utility functions
 
 from util import draw_graph
-
 ### plotting
 
-| how to call | argument | explanation |
-| ----------- | -------- | ----------- |
-| draw_graph(G. pos, data) | G : graph <br>  pos : $ N \times 2 $ <br> data : TV signals <br> output_name = 'out' | plotting function. <br> Output name is 'undir.png' |
+Draw the graph G with matplotlib.
 
+You don't have to give `data` when you draw the graph G as a simple representation.
+If you want to draw the graph G reflecting signal values, you can give `data` 
+```
+draw_graph(G, pos, data=None)
+```
+
+parameters:
+
+`G`:graph
+
+A pygsp graph
+
+`pos`:numpy array ($`N \times 2`$)
+
+A numpy array representing position of the nodes.
+
+`data`:numpy array ($`N \times 1`$), optional
