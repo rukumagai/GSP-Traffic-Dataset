@@ -17,25 +17,23 @@
 GSP-Traffic Datasetは，このような問題を解決する，交通ネットワーク上でのシミュレーションにより作成された時変グラフ信号データセットである．
 シミュレーションには，交通流シミュレータ ["Simulation of Urban MObility" (SUMO)](https://sumo.dlr.de/docs/index.html) を使用した．
 SUMOを用いることで，複数の国や都市に対して同一条件でシミュレーションを行うことができるため，グラフの性質や特徴の比較がしやすいという利点がある.
-本研究で作成したデータセットは，465ヶ所の人口100万人以上の都市についての交通量を仮想的に計測したものである.
+
+本研究で作成されたデータセットは，465ヶ所の人口100万人以上の都市についての交通量を仮想的に計測したものである.
 グラフは，交差点を頂点，道路を辺とするものであり，[Open Street Map](https://www.openstreetmap.org/#map=6/35.588/134.380)から地図データを取得し，作成された．
 また，信号値は500秒間に交差点を通過した車両の合計台数とした.
 時系列データを生成するために，50,000秒間のシミュレーションを行った.
 このデータセットにより，グラフ信号および時変グラフ信号を扱うグラフ上データ解析手法の統一的な評価が可能となる.
 
-
-<!-- ![](image/italy_rome.png) -->
-
-
 ## Installation
-以下のコマンドを実行することでデータセットにアクセスできます．
+以下のコマンドを実行することでデータセットにアクセス可能である．
 ```
 git clone https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
 ```
 
 ## Attributes
 
-465都市それぞれに対して ``` (country)_(city).npz ``` の形で，以下のデータが格納されています．
+465都市それぞれに対して ``` (country)_(city).npz ``` の形で，以下のデータが格納されている．
+すべての都市データが格納されたdatasetフォルダと，7:3の割合になるように無作為に分けられたtrain, testフォルダが用意されている．
 
 | Variable | Attributes | Shape |
 | -------: | :-------: | ----: |
@@ -57,7 +55,6 @@ from pygsp import graphs
 
 files = [filename for filename in os.listdir('dataset') ]
 npz = np.load(os.path.join('dataset',files[i]))
-npz = np.load(filename)
 N,T,W,L,data,pos = npz['N'], npz['T'], npz['W'], npz['L'], npz['data'], npz['pos']
 G = graphs.Graph(W)
 draw_graph(G,data[:,0],pos)
@@ -65,39 +62,58 @@ draw_graph(G,data[:,0],pos)
 
 ### matlab
 
+準備中...
 
 ## Utility functions
-
-いくつかの関数が用意されています．
-```
-from util import draw_graph
-```
-
 ### plotting
-
-Draw the graph G with matplotlib.
-
-You don't have to give `data` when you draw the graph G as a simple representation.
-If you want to draw the graph G reflecting signal values, you can give `data` 
 ```
-draw_graph(G, pos, data=None)
+draw_graph(G, pos, data=None, image=None)
 ```
+matplotlibを用いてグラフを描写する．
 
-parameters:
+`data`を与えた場合，各頂点の持つ信号値によって頂点の色及び大きさが調整されたグラフが出力される．
 
-`G`:graph
+#### parameters:
 
-A pygsp graph
+* `G` : graph
 
-`pos`:numpy array ($`N \times 2`$)
+	A pygsp graph
 
-A numpy array representing position of the nodes.
+* `pos` : numpy array ($`N \times 2`$)
 
-`data`:numpy array ($`N \times 1`$), optional
+	A numpy array representing position of the nodes.
+
+* `data` : numpy array ($`N \times 1`$), optional
+
+	A numpy array representing signal values at time $`t`$
+
+* `image` : string, optional
+
+    filename to save the image
 
 
+#### Example
+```
+from util import draw_graph()
 
-<!-- 
-| How to call | Argument | Explanation |
-| ----------- | -------- | ----------- |
-| draw_graph(G, pos, data) | G : graph <br> pos : $ N \times 2 $ <br> data : TV signals <br> output_name = 'out' | plotting function. <br> Output name is 'undir.png' | -->
+npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
+N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
+G = graphs.Graph(W)
+
+util.draw_graph(G,pos,image='Italy_Rome.png')
+```
+#### Output
+![](image/Italy_Rome.png)
+
+#### Example
+```
+from util import draw_graph()
+
+npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
+N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
+G = graphs.Graph(W)
+
+util.draw_graph(G,pos,data[:,0],image='Italy_Rome_signal.png')
+```
+#### Output
+![](image/Italy_Rome_signal.png)

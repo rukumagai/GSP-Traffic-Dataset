@@ -16,7 +16,7 @@ class DiGraphD:
         self.G = nx.DiGraph()
 
 
-def draw_graph(G,pos,data=None):
+def draw_graph(G,pos,data=None,image=None):
     position = {
             k: tuple(v) for k, v in enumerate(pos)
         }
@@ -42,14 +42,7 @@ def draw_graph(G,pos,data=None):
 
     nx.draw_networkx_edges(graphD.G, position, width=0.2)
     plt.show()
+    print(type(image))
+    if isinstance(image, str):
+        fig.savefig(image, dpi = 500)
     plt.close(fig)
-
-
-if __name__ == '__main__':
-    files = [filename for filename in os.listdir('dataset_ver4.0') ]
-    for i in range(len(files)):
-        npz = np.load(os.path.join('dataset_ver4.0',files[i]))
-        N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
-        G = graphs.Graph(W)
-        draw_graph(G,data[:,0],pos)
-        npz.close()
