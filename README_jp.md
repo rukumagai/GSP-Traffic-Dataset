@@ -96,7 +96,7 @@ matplotlibを用いてグラフを描写する．
 
 #### Example
 ```
-from util import draw_graph()
+from util import draw_graph
 
 npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
 N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
@@ -109,7 +109,7 @@ util.draw_graph(G,pos,image='Italy_Rome.png')
 
 #### Example
 ```
-from util import draw_graph()
+from util import draw_graph
 
 npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
 N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
