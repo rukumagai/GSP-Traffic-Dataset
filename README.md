@@ -74,13 +74,13 @@ import numpy as np
 from pygsp import graphs
 from util import draw_graph
 
-files = [filename for filename in os.listdir('dataset') ]
+files = [filename for filename in os.listdir('GSP_Traffic/GSP_TRAFFIC_Python') ]
 
-npz = np.load(os.path.join('dataset',files[0]))
+npz = np.load(os.path.join('GSP_Traffic/GSP_TRAFFIC_Python',files[0]))    # decide the file index
 N,T,W,L,data,pos = npz['N'], npz['T'], npz['W'], npz['L'], npz['data'], npz['pos']
 G = graphs.Graph(W)
 
-t = 0    
+t = 0    # decide the signal time
 draw_graph(G,data[:,t],pos)
 ```
 
