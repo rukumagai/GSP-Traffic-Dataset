@@ -44,12 +44,10 @@ The image below shows the mean and standard deviation of log-energy distribution
 ![](doc/log_ene.jpeg)
 
 ## Installation
-This document is written for MATLAB users.
-Python users are recommended to refer `README_Python.md`.
 
 Access is possible to clone the git repository at
 ```
-https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
+git clone https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
 ```
 
 
@@ -67,119 +65,84 @@ The folder named `dataset` contains all the cities, while the folders named `tra
 | ` data ` | TV graph signals | $` N \times T `$ |
 | ` pos ` | `(longitude,latitude)` of the nodes | $` N \times 2 `$ | 
 
-## Demo for GSP_Traffic Dataset
+## Examples
 
-### Loading Data
-You can load data by specifying the city and country as follows:
+### Python (with [pygsp](https://pygsp.readthedocs.io/en/stable/))
 ```
-path_name = "GSP_Traffic/GSP_TRAFFIC_MATLAB";
+import os
+import numpy as np
+from pygsp import graphs
+from util import draw_graph
 
-country_name = "Italy";
-city_name = "Rome";
+files = [filename for filename in os.listdir('GSP_Traffic/GSP_TRAFFIC_Python') ]
 
-files_train = dir(fullfile(path_name, 'train', '*.mat'));
-files_test = dir(fullfile(path_name, 'test', '*.mat'));
+npz = np.load(os.path.join('GSP_Traffic/GSP_TRAFFIC_Python',files[0]))    # decide the file index
+N,T,W,L,data,pos = npz['N'], npz['T'], npz['W'], npz['L'], npz['data'], npz['pos']
+G = graphs.Graph(W)
 
-files = [files_train; files_test]
-for i = 1:numel(files)
-    if files(i).name==(country_name+'_'+city_name+'.mat')
-        filename = fullfile(files(i).folder, files(i).name);
-        load(filename);
-    end
-end
-```
-You also can describe this part using `path_search(city_name)`, utility function prepared for GSP_Traffic dataset.
-```
-country_name = "Italy";
-city_name = "Rome";
-
-load(path_search(city_name));
+t = 0    # decide the signal time
+draw_graph(G,data[:,t],pos)
 ```
 
-### Visualizatoin
-You can draw the graph and signals.
-Since the signals are time-varying, you have to define the time(
-default : `t=1`).
-```
-% Graph construction
-G = gsp_graph(double(W),pos);
-
-% Plotting signal + graph
-figure;
-gsp_plot_signal(G,data(:,1));title(country_name +' - '+ city_name,FontSize=16);
-```
-### Signal Filtering
-```
-G = gsp_compute_fourier_basis(G);
-
-% Noize vector
-noize = mvnrnd(zeros(N,1),0.75^2*eye(N));
-
-% Normalize data
-signal = double(data(:,1));
-signal = (signal-mean(signal))./std(signal);
-noizy_signal = signal + noize';
-
-% Plot signal
-figure;
-subplot(121);gsp_plot_signal(G,signal);title("Normalized Signal",FontSize=16);lim=clim;
-subplot(122);gsp_plot_signal(G,noizy_signal);title("Noisy Signal",FontSize=16);clim(lim);
-```
-### Design filter
-```
-g = gsp_design_smooth_indicator(G,0.1,0.5);
-x = gsp_filter(G,g,noizy_signal);
-f = gsp_gft(G,signal);
-% Plot filter and signal spectrum
-figure;
-subplot(121);gsp_plot_signal_spectral(G,f);title("Signal Spectrum",FontSize=16);
-subplot(122);gsp_plot_filter(G,g);title("Filter",FontSize=16);
-
-default_mse = sqrt(sum((signal-noizy_signal).^2))/279;
-filtered_mse = sqrt(sum((signal-x).^2))/279;
-
-% Plot results
-figure;
-subplot(121);gsp_plot_signal(G,signal);title("Noisy Signal - MSE: "+num2str(default_mse,'%.4f'),FontSize=16);clim(lim);
-subplot(122);gsp_plot_signal(G,x);title("Filtered Signal - MSE: "+num2str(filtered_mse,'%.4f'),FontSize=16);clim(lim);
-```
 
 ## Utility functions
-### path_search(city_name)
+### plotting
 ```
-path_search(city_name)
+draw_graph(G, pos, data=None, image=None)
 ```
-#### Input parameters:
-* `city_name` : the city name, string
-#### Output parameters:
-* `path` : the path of the city
-    
-    Search the path of the city you input. 
-    You can directly input as the parameter of the function `load()`.
-#### Example:
+Draw the graph G with matplotlib.
+
+You don't have to give `data` when you draw the graph G as a simple representation.
+If you want to draw the graph G reflecting signal values, you can give `data`.
+
+#### parameters:
+
+* `G` : graph
+
+	A pygsp graph.
+
+* `pos` : numpy array ($`N \times 2`$)
+
+	A numpy array representing position of the nodes.
+
+* `data` : numpy array ($`N \times 1`$), optional
+
+	A numpy array representing signal values at time $`t`$.
+
+* `image` : string, optional
+
+    filename to save the image. 
+
+
+#### Example
 ```
-load(path_search(city_name))
+import os
+import numpy as np
+from pygsp import graphs
+from util import draw_graph
+
+npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
+N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
+G = graphs.Graph(W)
+
+draw_graph(G,pos,image='Italy_Rome.png')
+```
+#### Output
+![](doc/Italy_Rome.png)
+
+#### Example
+```
+import os
+import numpy as np
+from pygsp import graphs
+from util import draw_graph
+
+npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
+N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
+G = graphs.Graph(W)
+
+draw_graph(G,pos,data[:,0],image='Italy_Rome_signal.png')
 ```
 
-##
-### city_names(country_name)
-```
-city_names(country_name)
-```
-#### Input parameters:
-* `country_name` : the country name, string
-#### Output parameters:
-* `cities` : the string array of the names of the city in the country
-    
-    Search the cities of the country you input. 
-
-#### Example:
-```
-cities = city_names("Italy")
-```
-#### Output:
-```
-cities = 
-    "Milano"
-    "Rome"
-```
+#### Output
+![](doc/Italy_Rome_signal.png)
