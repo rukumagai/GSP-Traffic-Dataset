@@ -3,10 +3,10 @@
 # GSP-Traffic Dataset
 
 Authors : 
-    Rui Kumagai [(r.kumagai@msp-lab.org)](<mailto:r.kumagai@msp-lab.org>), 
-    Hayate Kojima [(h-kojima@msp-lab.org)](<mailto:h-kojima@msp-lab.org>), 
-    Hiroshi Higashi [(higashi@comm.eng.osaka-u.ac.jp)](<mailto:higashi@comm.eng.osaka-u.ac.jp>), 
-    and Yuichi Tanaka [(ytanaka@comm.eng.osaka-u.ac.jp)](<mailto:ytanaka@comm.eng.osaka-u.ac.jp>)
+    Rui Kumagai ([r.kumagai@msp-lab.org](<mailto:r.kumagai@msp-lab.org>)), 
+    Hayate Kojima ([h-kojima@msp-lab.org](<mailto:h-kojima@msp-lab.org>)), 
+    Hiroshi Higashi ([higashi@comm.eng.osaka-u.ac.jp](<mailto:higashi@comm.eng.osaka-u.ac.jp>)), 
+    and Yuichi Tanaka ([ytanaka@comm.eng.osaka-u.ac.jp](<mailto:ytanaka@comm.eng.osaka-u.ac.jp>))
 
 ## Abstract
 
