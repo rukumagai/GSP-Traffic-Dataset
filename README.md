@@ -158,7 +158,24 @@ path_search(city_name)
     You can directly input as the parameter of the function `load()`.
 #### Example:
 ```
-load(path_search(city_name))
+city_name = "Rome";
+load(path_search(city_name));
+G = gsp_graph(double(W),pos)
+```
+#### Output
+```
+             W: [544×544 double]
+        coords: [544×2 double]
+          type: 'from weight'
+             A: [544×544 logical]
+             N: 544
+      directed: 0
+    hypergraph: 0
+      lap_type: 'combinatorial'
+             L: [544×544 double]
+             d: [544×1 double]
+            Ne: 683
+      plotting: [1×1 struct]
 ```
 
 ##
