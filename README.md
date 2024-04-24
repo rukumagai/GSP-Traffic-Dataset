@@ -24,6 +24,8 @@ All the networks are taken from [Open Street Map](https://www.openstreetmap.org/
 Signals in the dataset are the total number of vehicles passing through intersections obtained by extensive SUMO simulations.
 The measurement period is set to 500 seconds. 
 To obtain time-varying signals, the entire simulation period is set to 50,000 seconds.
+This dataset is beneficial for quantitative analysis of signal processing accuracy without estimation of graphs, and graph learning qualities can be compared within the dataset.
+
 
 ## Overview
 
@@ -45,12 +47,18 @@ The image below shows the mean and standard deviation of log-energy distribution
 
 ## Installation
 This document is written for MATLAB users.
-Python users are recommended to refer `README_Python.md`.
+Python users are recommended to refer `README_python.md`.
 
-Access is possible to clone the git repository at
+To install, simply unpack the package from here :  https://github.com/rukumagai/GSP-Traffic-Dataset/releases/tag/v1.0
+
+This is the additional dataset package for GSPtoolbox.
+The dataset is recommended to be contained in the 'gspbox' directory.
+To use the dataset, start Matlab, run the
 ```
-https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
+Traffic_install
 ```
+command. 
+This will set up the necessary paths.
 
 
 ## Attribute
@@ -96,6 +104,8 @@ city_name = "Rome";
 load(path_search(city_name));
 ```
 
+
+
 ### Visualizatoin
 You can draw the graph and signals.
 Since the signals are time-varying, you have to define the time(
@@ -108,7 +118,13 @@ G = gsp_graph(double(W),pos);
 figure;
 gsp_plot_signal(G,data(:,1));title(country_name +' - '+ city_name,FontSize=16);
 ```
+
+#### Output
+![](doc/Visualization.jpg)
+
 ### Signal Filtering
+In the following part, we show a simple denoizing experiment.
+Firstly, normalize and put a noise as follows:
 ```
 G = gsp_compute_fourier_basis(G);
 
@@ -125,7 +141,12 @@ figure;
 subplot(121);gsp_plot_signal(G,signal);title("Normalized Signal",FontSize=16);lim=clim;
 subplot(122);gsp_plot_signal(G,noizy_signal);title("Noisy Signal",FontSize=16);clim(lim);
 ```
+
+#### Output
+![](doc/SignalFiltering.jpg)
+
 ### Design filter
+Then, design a low-pass filter as follows:
 ```
 g = gsp_design_smooth_indicator(G,0.1,0.5);
 x = gsp_filter(G,g,noizy_signal);
@@ -134,15 +155,25 @@ f = gsp_gft(G,signal);
 figure;
 subplot(121);gsp_plot_signal_spectral(G,f);title("Signal Spectrum",FontSize=16);
 subplot(122);gsp_plot_filter(G,g);title("Filter",FontSize=16);
+```
+#### Output
+![](doc/Filter_Spectrum.jpg)
 
+### Plot results
+The result of the experiment is shown as follows:
+```
 default_mse = sqrt(sum((signal-noizy_signal).^2))/279;
 filtered_mse = sqrt(sum((signal-x).^2))/279;
 
-% Plot results
 figure;
 subplot(121);gsp_plot_signal(G,signal);title("Noisy Signal - MSE: "+num2str(default_mse,'%.4f'),FontSize=16);clim(lim);
 subplot(122);gsp_plot_signal(G,x);title("Filtered Signal - MSE: "+num2str(filtered_mse,'%.4f'),FontSize=16);clim(lim);
 ```
+
+#### Output
+![](doc/Filtered.jpg)
+
+
 
 ## Utility functions
 ### path_search(city_name)
