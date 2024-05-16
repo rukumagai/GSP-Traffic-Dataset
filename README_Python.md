@@ -70,10 +70,10 @@ The folder named `dataset` contains all the cities, while the folders named `tra
 If you use this dataset for your research, you may use this bibtex citation:
 
 ```
-@misc{gsp_traffic,
+@conference{gsp_traffic,
     title = {GSP-Traffic Dataset: Graph signal processing dataset based on traffic simulation},
     author = {Kumagai, Rui and Kojima, Hayate and Higashi, Hiroshi and Tanaka, Yuichi},
-    organization = {Graph Signal Processing Workshop 2024, Delft, The Netherlands},
+    booktitle = {Graph Signal Processing Workshop 2024, Delft, The Netherlands},
     year = {2024},
     month = {Jun},
 }
