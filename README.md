@@ -29,7 +29,7 @@ This dataset is beneficial for quantitative analysis of signal processing accura
 
 ## Overview
 
-In this section, we show the characteristics of the graphs and signals of our dataset.
+In this section, we show the characteristics of the graphs and signals of our dataset.(The city list is available in [google spreadsheet](https://docs.google.com/spreadsheets/d/1wJ3MPm5TSh5eKkXRGtqZykiy-HV7anCL_F4yfKACNqo/edit?usp=sharing))
 
 The table below shows the statistics of the number of vertices and edges.
 |   | max | min | mean | median | std | meandegree |
@@ -45,14 +45,16 @@ The image below shows the mean and standard deviation of log-energy distribution
 
 ![](doc/log_ene.jpeg)
 
+
 ## Installation
 This document is written for MATLAB users.
 Python users are recommended to refer `README_python.md`.
 
 To install, simply unpack the package from here :  https://github.com/rukumagai/GSP-Traffic-Dataset/releases/tag/v1.0
 
-This is the additional dataset package for GSPtoolbox.
-The dataset is recommended to be contained in the 'gspbox' directory.
+The GSP-Traffic dataset is designed to use with [GSP toolbox](https://epfl-lts2.github.io/gspbox-html/).
+The folder named 'gsp_traffic' is to be contained in the 'your_directory/gspbox' directory.(So the path of this dataset is to be 'your_directory/gspbox/gsp_traffic'.)
+
 To use the dataset, start Matlab, run the
 ```
 Traffic_install
@@ -74,6 +76,19 @@ The folder named `dataset` contains all the cities, while the folders named `tra
 | ` W ` | Weighted matrix | $` N \times N `$ |
 | ` data ` | TV graph signals | $` N \times T `$ |
 | ` pos ` | `(longitude,latitude)` of the nodes | $` N \times 2 `$ | 
+
+## Citation
+If you use this dataset for your research, you may use this bibtex citation:
+
+```
+@misc{gsp_traffic,
+    title = {GSP-Traffic Dataset: Graph signal processing dataset based on traffic simulation},
+    author = {Kumagai, Rui and Kojima,Hayate and Higashi, Hiroshi and Tanaka,Yuichi},
+    organization = {Graph Signal Processing Workshop 2024, Delft, The Netherlands},
+    year = {2024},
+    month = {Jun},
+}
+```
 
 ## Demo for GSP_Traffic Dataset
 

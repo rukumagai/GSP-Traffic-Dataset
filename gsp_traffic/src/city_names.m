@@ -1,5 +1,5 @@
 function [files] = city_names(country)
-    paths = dir('**/'+country+'*.mat');
+    paths = dir('**/gsp_traffic/**/'+country+'*.mat');
     if isempty(paths)
         fprintf('%s is not contained in this dataset\n',name)
     else

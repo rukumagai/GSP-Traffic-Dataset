@@ -1,5 +1,5 @@
 function [city_path] = path_search(name)
-    path = dir('**/*'+name+'.mat');
+    path = dir('**/gsp_traffic/**/*'+name+'.mat');
     if isempty(path) 
         fprintf('No such city named %s\n',name)
         city_path = NaN;
