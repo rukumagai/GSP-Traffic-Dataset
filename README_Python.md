@@ -27,7 +27,7 @@ To obtain time-varying signals, the entire simulation period is set to 50,000 se
 
 ## Overview
 
-In this section, we show the characteristics of the graphs and signals of our dataset.(The city list is available in [google spreadsheet](https://docs.google.com/spreadsheets/d/1wJ3MPm5TSh5eKkXRGtqZykiy-HV7anCL_F4yfKACNqo/edit?usp=sharing))
+In this section, we show the characteristics of the graphs and signals of our dataset. (The list of all cities in the dataset is available in [google spreadsheet](https://docs.google.com/spreadsheets/d/1wJ3MPm5TSh5eKkXRGtqZykiy-HV7anCL_F4yfKACNqo/edit?usp=sharing))
 
 The table below shows the statistics of the number of vertices and edges.
 |   | max | min | mean | median | std | meandegree |
