@@ -27,7 +27,8 @@ To obtain time-varying signals, the entire simulation period is set to 50,000 se
 
 ## Overview
 
-In this section, we show the characteristics of the graphs and signals of our dataset. (The list of all cities in the dataset is available in [google spreadsheet](https://docs.google.com/spreadsheets/d/1wJ3MPm5TSh5eKkXRGtqZykiy-HV7anCL_F4yfKACNqo/edit?usp=sharing))
+In this section, we show the characteristics of the graphs and signals of our dataset.
+(The list of all cities in the dataset is available in [google spreadsheet](https://docs.google.com/spreadsheets/d/1wJ3MPm5TSh5eKkXRGtqZykiy-HV7anCL_F4yfKACNqo/edit?usp=sharing))
 
 The table below shows the statistics of the number of vertices and edges.
 |   | max | min | mean | median | std | meandegree |
@@ -46,7 +47,8 @@ The image below shows the mean and standard deviation of log-energy distribution
 ## Installation
 
 Access is possible to clone the git repository at
-```
+
+```sh
 git clone https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
 ```
 
@@ -69,7 +71,7 @@ The folder named `dataset` contains all the cities, while the folders named `tra
 ## Citation
 If you use this dataset for your research, you may use this bibtex citation:
 
-```
+```bibtex
 @conference{gsp_traffic,
     title = {GSP-Traffic Dataset: Graph signal processing dataset based on traffic simulation},
     author = {Kumagai, Rui and Kojima, Hayate and Higashi, Hiroshi and Tanaka, Yuichi},
@@ -82,32 +84,37 @@ If you use this dataset for your research, you may use this bibtex citation:
 ## Examples
 
 ### Python (with [pygsp](https://pygsp.readthedocs.io/en/stable/))
-```
+
+```py
 import os
 import numpy as np
 from pygsp import graphs
 from util import draw_graph
 
-files = [filename for filename in os.listdir('GSP_Traffic/GSP_TRAFFIC_Python') ]
+files = [filename for filename in os.listdir("GSP_Traffic/GSP_TRAFFIC_Python")]
 
-npz = np.load(os.path.join('GSP_Traffic/GSP_TRAFFIC_Python',files[0]))    # decide the file index
-N,T,W,L,data,pos = npz['N'], npz['T'], npz['W'], npz['L'], npz['data'], npz['pos']
+npz = np.load(
+    os.path.join("GSP_Traffic/GSP_TRAFFIC_Python", files[0])
+)  # decide the file index
+N, T, W, L, data, pos = npz["N"], npz["T"], npz["W"], npz["L"], npz["data"], npz["pos"]
 G = graphs.Graph(W)
 
-t = 0    # decide the signal time
-draw_graph(G,data[:,t],pos)
+t = 0  # decide the signal time
+draw_graph(G, data[:, t], pos)
 ```
 
 
 ## Utility functions
 ### plotting
-```
+
+```py
 draw_graph(G, pos, data=None, image=None)
 ```
-Draw the graph G with matplotlib.
 
-You don't have to give `data` when you draw the graph G as a simple representation.
-If you want to draw the graph G reflecting signal values, you can give `data`.
+Draw the graph `G` with `matplotlib`.
+
+You don't have to give `data` when you draw the graph `G` as a simple representation.
+If you want to draw the graph `G` reflecting signal values, you can give `data`.
 
 #### parameters:
 
@@ -129,33 +136,36 @@ If you want to draw the graph G reflecting signal values, you can give `data`.
 
 
 #### Example
-```
+
+```py
 import os
 import numpy as np
 from pygsp import graphs
 from util import draw_graph
 
-npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
-N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
+npz = np.load(os.path.join("dataset", "Italy_Rome.npz"))
+N, T, W, L, data, pos = npz["N"], npz["T"], npz["W"], npz["L"], npz["data"], npz["pos"]
 G = graphs.Graph(W)
 
-draw_graph(G,pos,image='Italy_Rome.png')
+draw_graph(G, pos, image="Italy_Rome.png")
 ```
+
 #### Output
 ![](doc/Italy_Rome.png)
 
 #### Example
-```
+
+```py
 import os
 import numpy as np
 from pygsp import graphs
 from util import draw_graph
 
-npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
-N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
+npz = np.load(os.path.join("dataset", "Italy_Rome.npz"))
+N, T, W, L, data, pos = npz["N"], npz["T"], npz["W"], npz["L"], npz["data"], npz["pos"]
 G = graphs.Graph(W)
 
-draw_graph(G,pos,data[:,0],image='Italy_Rome_signal.png')
+draw_graph(G, pos, data[:, 0], image="Italy_Rome_signal.png")
 ```
 
 #### Output
