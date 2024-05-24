@@ -27,11 +27,27 @@ def main():
         pos,
         data[:, t],
         image="Italy_Rome_normalized_signal.png",
-        normalized_data=normilized_data,
+        use_node_values=normilized_data,
     )
 
     gft_signal = util.apply_gft_to_signal(G, normilized_data)
     util.save_gs_spectrum(gft_signal, save_image_name="Italy_Rome_spectrum.png")
+
+    data_size = data.shape[0]
+    noise_signal = np.random.normal(loc=0, scale=0.75, size=data_size)
+    noisy_signal = normilized_data + noise_signal
+    util.draw_graph(
+        G,
+        pos,
+        data[:, t],
+        image="Italy_Rome_noisy_signal.png",
+        use_node_values=noisy_signal,
+    )
+
+    gft_noisy_signal = util.apply_gft_to_signal(G, noisy_signal)
+    util.save_gs_spectrum(
+        gft_noisy_signal, save_image_name="Italy_Rome_spectrum_noisy_gs.png"
+    )
 
 
 if __name__ == "__main__":

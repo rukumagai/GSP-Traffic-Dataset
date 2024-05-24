@@ -15,19 +15,19 @@ def draw_graph(
     pos: np.ndarray,
     data: np.ndarray = None,
     image: str = None,
-    normalized_data: np.ndarray = None,
+    use_node_values: np.ndarray = None,
 ):
     position_dict = {
         node_num: (pos_x, pos_y) for node_num, (pos_x, pos_y) in enumerate(pos)
     }
-    if normalized_data is None:
-        normalized_data = data
+    if use_node_values is None:
+        use_node_values = data
     node_sizes = _make_node_size(data)
     edges = _make_edge(G)
     graphD = _make_graphD(G=G, edges=edges)
     _save_graph(
         graphD=graphD,
-        normalized_data=normalized_data,
+        use_node_values=use_node_values,
         node_sizes=node_sizes,
         position_dict=position_dict,
         save_image_name=image,
@@ -60,28 +60,28 @@ def _make_node_size(data: np.ndarray) -> List:
 
 def _save_graph(
     graphD: nx.DiGraph | nx.Graph,
-    normalized_data: np.ndarray,
+    use_node_values: np.ndarray,
     node_sizes: List[float],
     position_dict: dict,
     save_image_name: str,
 ) -> None:
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(1, 1, 1)
-    if normalized_data is None:
+    if use_node_values is None:
         nx.draw_networkx_nodes(G=graphD, pos=position_dict, node_size=10)
     else:
         nx.draw_networkx_nodes(
             G=graphD,
             pos=position_dict,
-            node_color=normalized_data,
+            node_color=use_node_values,
             cmap="turbo",
             node_size=node_sizes,
         )
         sm = plt.cm.ScalarMappable(
             cmap="turbo",
-            norm=plt.Normalize(vmin=min(normalized_data), vmax=max(normalized_data)),
+            norm=plt.Normalize(vmin=min(use_node_values), vmax=max(use_node_values)),
         )
-        sm.set_array([0, max(normalized_data)])
+        sm.set_array([0, max(use_node_values)])
         fig.colorbar(sm, ax=ax)
     nx.draw_networkx_edges(G=graphD, pos=position_dict, width=0.2)
     print(type(save_image_name))
