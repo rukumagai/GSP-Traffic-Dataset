@@ -15,7 +15,7 @@ def draw_graph(
     pos: np.ndarray,
     data: np.ndarray = None,
     image: str = None,
-    normalized_data: np.array = None,
+    normalized_data: np.ndarray = None,
 ):
     position_dict = {
         node_num: (pos_x, pos_y) for node_num, (pos_x, pos_y) in enumerate(pos)
@@ -89,3 +89,26 @@ def _save_graph(
         save_path = top_dir() / save_image_name
         fig.savefig(save_path, dpi=500)
     plt.close(fig)
+
+
+def apply_gft_to_signal(G, graph_signal: np.ndarray):
+    G.compute_fourier_basis()
+    gft_signal = G.gft(graph_signal)
+    return gft_signal
+
+
+def save_gs_spectrum(gft_signal: np.ndarray, save_image_name: str):
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_subplot(1, 1, 1)
+    signal_index = [i for i in range(len(gft_signal))]
+    ax.stem(signal_index, np.abs(gft_signal))
+    if isinstance(save_image_name, str):
+        save_path = top_dir() / save_image_name
+        fig.savefig(save_path, dpi=500)
+    plt.close(fig)
+
+
+def normalize_graph_signal(graph_signal: np.ndarray, axis: int = 0) -> np.ndarray:
+    mean_gs = np.mean(graph_signal, axis=axis, keepdims=True)
+    std_gs = np.std(graph_signal, axis=axis, keepdims=True)
+    return (graph_signal - mean_gs) / std_gs

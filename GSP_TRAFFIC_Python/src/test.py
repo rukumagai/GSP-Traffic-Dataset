@@ -17,9 +17,21 @@ def main():
     )
     G = graphs.Graph(W)
 
-    t = 0
-    util.draw_graph(G, pos, data[:, t], iamge="Italy_Rome_signal.png")
+    t = 0  # decide the signal time
+    util.draw_graph(G, pos, data[:, t], image="Italy_Rome_signal.png")
     util.draw_graph(G, pos, image="Italy_Rome.png")
+
+    normilized_data = util.normalize_graph_signal(data[:, t])
+    util.draw_graph(
+        G,
+        pos,
+        data[:, t],
+        image="Italy_Rome_normalized_signal.png",
+        normalized_data=normilized_data,
+    )
+
+    gft_signal = util.apply_gft_to_signal(G, normilized_data)
+    util.save_gs_spectrum(gft_signal, save_image_name="Italy_Rome_spectrum.png")
 
 
 if __name__ == "__main__":
