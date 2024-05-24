@@ -1,22 +1,26 @@
-import GSP_TRAFFIC_Python.src.util as util
+import util
 import numpy as np
 from pygsp import graphs
-import os
-
-if __name__=='__main__':
 
 
-    npz = np.load(os.path.join('dataset','Italy_Rome.npz'))
-    N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
+def main():
+
+    npz_path = util.top_dir() / "train" / "Italy_Rome.npz"
+    npz = np.load(npz_path)
+    N, T, W, L, data, pos = (
+        npz["N"],
+        npz["T"],
+        npz["W"],
+        npz["L"],
+        npz["data"],
+        npz["pos"],
+    )
     G = graphs.Graph(W)
-    util.draw_graph(G,pos,data[:,0],image='Italy_Rome_signal.png')
-    util.draw_graph(G,pos,image='Italy_Rome.png')
 
-    # files = [filename for filename in os.listdir('dataset') ]
-    # for i in range(len(files)):
-    #     npz = np.load(os.path.join('dataset',files[i]))
-    #     N,T,W,L,data,pos = npz['N'],npz['T'],npz['W'],npz['L'],npz['data'],npz['pos']
-    #     G = graphs.Graph(W)
-    #     util.draw_graph(G,pos,data[:,0])
-    #     # util.draw_graph(G,pos)
-    #     npz.close()
+    t = 0
+    util.draw_graph(G, pos, data[:, t], iamge="Italy_Rome_signal.png")
+    util.draw_graph(G, pos, image="Italy_Rome.png")
+
+
+if __name__ == "__main__":
+    main()
