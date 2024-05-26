@@ -16,13 +16,15 @@ def draw_graph(
     data: np.ndarray = None,
     image: str = None,
     use_node_values: np.ndarray = None,
+    node_value_disabled: bool = False,
 ):
     position_dict = {
         node_num: (pos_x, pos_y) for node_num, (pos_x, pos_y) in enumerate(pos)
     }
-    if use_node_values is None:
+    node_value_disabled = _check_node_value_disabled(data, use_node_values)
+    if not node_value_disabled and use_node_values is None:
         use_node_values = data
-    node_sizes = _make_node_size(data)
+    node_sizes = _make_node_size(data, node_value_disabled)
     edges = _make_edge(G)
     graphD = _make_graphD(G=G, edges=edges)
     _save_graph(
@@ -31,7 +33,15 @@ def draw_graph(
         node_sizes=node_sizes,
         position_dict=position_dict,
         save_image_name=image,
+        node_value_disabled=node_value_disabled,
     )
+
+
+def _check_node_value_disabled(data, use_node_values) -> bool:
+    node_value_disabled = data is None and use_node_values is None
+    if data is None and use_node_values is not None:
+        raise Exception("Please input `data` into draw_graph to show the node values.")
+    return node_value_disabled
 
 
 def _make_edge(G) -> List:
@@ -50,11 +60,12 @@ def _make_graphD(G, edges: List) -> nx.DiGraph | nx.Graph:
     return graphD
 
 
-def _make_node_size(data: np.ndarray) -> List:
-    if data is None:
-        return None
-    mean_data = sum(data) / len(data)
-    node_sizes = [20 * float(signal / mean_data) for signal in data]
+def _make_node_size(data: np.ndarray, node_value_disabled: bool) -> List:
+    if node_value_disabled:
+        node_sizes = 10
+    else:
+        mean_data = sum(data) / len(data)
+        node_sizes = [20 * float(signal / mean_data) for signal in data]
     return node_sizes
 
 
@@ -64,11 +75,12 @@ def _save_graph(
     node_sizes: List[float],
     position_dict: dict,
     save_image_name: str,
+    node_value_disabled: bool,
 ) -> None:
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(1, 1, 1)
-    if use_node_values is None:
-        nx.draw_networkx_nodes(G=graphD, pos=position_dict, node_size=10)
+    if node_value_disabled:
+        nx.draw_networkx_nodes(G=graphD, pos=position_dict, node_size=node_sizes)
     else:
         nx.draw_networkx_nodes(
             G=graphD,
@@ -84,7 +96,7 @@ def _save_graph(
         sm.set_array([0, max(use_node_values)])
         fig.colorbar(sm, ax=ax)
     nx.draw_networkx_edges(G=graphD, pos=position_dict, width=0.2)
-    print(type(save_image_name))
+    fig.tight_layout()
     if isinstance(save_image_name, str):
         save_path = top_dir() / save_image_name
         fig.savefig(save_path, dpi=500)
