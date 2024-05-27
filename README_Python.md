@@ -149,7 +149,7 @@ util.draw_graph(
 	<img src="doc/py_figs/Italy_Rome_noisy_signal.png" width="40%">
 </p>
 
-### Disign filter
+### Design filter
 
 Then, design a low-pass filter as follows:
 
@@ -208,7 +208,7 @@ util.draw_graph(
 
 ## Utility functions
 
-### plotting
+### plotting graph
 
 ```py
 util.draw_graph(
@@ -281,6 +281,77 @@ util.draw_graph(
 <img src="doc/py_figs/Italy_Rome_signal.png" width="50%">
 
 
+### plotting filter
+
+
+```py
+util.save_filter(g, filter_name, fig_title=None)
+```
+
+Save the filter `g` you made.
+
+
+#### parameters:
+
+* `g` : filter
+
+    A filter you made.
+
+* `filter_name`: str
+
+    A figure filename of the filter.
+
+* `fig_title`: str, optional
+
+    A title of figure.
+
+
+#### Example
+
+```py
+util.save_filter(g, "Italy_Rome_filter.png", fig_title="Filter")
+```
+
+This output example is shown in the section of `Design Smooth Filter`.
+
+
+### plotting spectrum of graph signals
+
+```py
+util.save_gs_spectrum(
+    gft_signal, save_image_name, fig_title=None
+)
+```
+
+Save the spectrum of graph signals.
+
+
+#### parameters:
+
+* `gft_signal` : spectrum
+
+    Use the spectrum of graph signals.
+
+* `save_image_name`: str
+
+    A figure filename.
+
+* `fig_title`: str, optional
+
+    A title of figure.
+
+
+#### Example
+
+```py
+util.save_gs_spectrum(
+    f, save_image_name="Italy_Rome_spectrum.png", fig_title="Signal Spectrum"
+)
+```
+
+This output example is shown in the section of `Apply GFT to graph signals`.
+
+
 
 ### Normalize graph signals
 
@@ -294,7 +365,7 @@ Normalize the raw graph signals.
 
 * `graph_signal` : numpy array ($`N \times 1`$)
 
-    Raw graph signals
+    Graph signals
 
 * `axis` : int, optional
 
