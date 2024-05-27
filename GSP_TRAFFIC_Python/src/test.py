@@ -53,7 +53,7 @@ def main():
     )
 
     ## Design filter
-    g = util.gsp_design_smooth_indicator(G, 0, 0.5)
+    g = util.gsp_design_smooth_indicator(G, 0.1, 0.5)
     x = g.filter(noizy_signal)
     f = util.apply_gft_to_signal(G, normilized_data)
     util.save_gs_spectrum(

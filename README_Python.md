@@ -49,7 +49,7 @@ The image below shows the mean and standard deviation of log-energy distribution
 Access is possible to clone the git repository at
 
 ```sh
-git clone https://github.com/kumagai-r-ou/GSP-Traffic-Dataset
+git clone https://github.com/rukumagai/GSP-Traffic-Dataset
 ```
 
 
@@ -155,7 +155,7 @@ Then, design a low-pass filter as follows:
 
 ```py
 ## Design filter
-g = util.gsp_design_smooth_indicator(G, 0, 0.5)
+g = util.gsp_design_smooth_indicator(G, 0.1, 0.5)
 x = g.filter(noizy_signal)
 f = util.apply_gft_to_signal(G, normilized_data)
 util.save_gs_spectrum(
@@ -177,8 +177,8 @@ The result of the experiment is shown as follows:
 
 
 ```py
-default_mse = np.sqrt(np.sum((normilized_data - noizy_signal) ** 2)) / 279
-filtered_mse = np.sqrt(np.sum((normilized_data - x) ** 2)) / 279
+default_mse = np.sqrt(np.sum((normilized_data - noizy_signal) ** 2)) / G.N
+filtered_mse = np.sqrt(np.sum((normilized_data - x) ** 2)) / G.N
 
 ## Plot results
 util.draw_graph(
@@ -402,7 +402,7 @@ You can keep frequencies of graph signals between `a1` and `a2` and reduce them 
 #### Example
 
 ```py
-g = util.gsp_design_smooth_indicator(G, 0, 0.5)
+g = util.gsp_design_smooth_indicator(G, 0.1, 0.5)
 util.save_filter(g, "Italy_Rome_filter.png", fig_title="Filter")
 ```
 
