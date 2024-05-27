@@ -83,38 +83,149 @@ If you use this dataset for your research, you may use this bibtex citation:
 
 ## Examples
 
-### Python (with [pygsp](https://pygsp.readthedocs.io/en/stable/))
+The examples use [pygsp](https://pygsp.readthedocs.io/en/stable/).
+If you would like to know the details of some functions, please also refer to the Github of pygsp.
+
+### Loading Data
+
+You can load data by specifying the city and country as follows:
 
 ```py
-import os
+import util
 import numpy as np
 from pygsp import graphs
-from util import draw_graph
 
-files = [filename for filename in os.listdir("GSP_Traffic/GSP_TRAFFIC_Python")]
+npz_path = util.top_dir() / "train" / "Italy_Rome.npz"
+npz = np.load(npz_path)
+N, T, W, L, data, pos = (
+    npz["N"],
+    npz["T"],
+    npz["W"],
+    npz["L"],
+    npz["data"],
+    npz["pos"],
+)
 
-npz = np.load(
-    os.path.join("GSP_Traffic/GSP_TRAFFIC_Python", files[0])
-)  # decide the file index
-N, T, W, L, data, pos = npz["N"], npz["T"], npz["W"], npz["L"], npz["data"], npz["pos"]
 G = graphs.Graph(W)
-
-t = 0  # decide the signal time
-draw_graph(G, data[:, t], pos)
 ```
+
+### Signal Filtering
+
+In the following part, we show a simple denoizing experiment.
+Firstly, normalize and put a noize as follows:
+
+```py
+### Noise vector
+data_size = data.shape[0]
+noize_signal = np.random.normal(loc=0, scale=0.75, size=data_size)
+
+### Normalize data
+normilized_data = util.normalize_graph_signal(data[:, t])
+noizy_signal = normilized_data + noize_signal
+
+### Plot signal
+util.draw_graph(
+    G,
+    pos,
+    data[:, t],
+    image="Italy_Rome_normalized_signal.png",
+    use_node_values=normilized_data,
+    fig_title="Normalized Signal",
+)
+util.draw_graph(
+    G,
+    pos,
+    data[:, t],
+    image="Italy_Rome_noisy_signal.png",
+    use_node_values=noizy_signal,
+    fig_title="Noizy Signal",
+)
+```
+
+#### Output
+
+<p>
+	<img src="doc/py_figs/Italy_Rome_normalized_signal.png" width="40%">
+	<img src="doc/py_figs/Italy_Rome_noisy_signal.png" width="40%">
+</p>
+
+### Design filter
+
+Then, design a low-pass filter as follows:
+
+```py
+## Design filter
+g = util.gsp_design_smooth_indicator(G, 0, 0.5)
+x = g.filter(noizy_signal)
+f = util.apply_gft_to_signal(G, normilized_data)
+util.save_gs_spectrum(
+    f, save_image_name="Italy_Rome_spectrum.png", fig_title="Signal Spectrum"
+)
+util.save_filter(g, "Italy_Rome_filter.png", fig_title="Filter")
+```
+
+#### Output
+
+<p>
+	<img src="doc/py_figs/Italy_Rome_spectrum.png" width="40%">
+	<img src="doc/py_figs/Italy_Rome_filter.png" width="40%">
+</p>
+
+#### Plot results
+
+The result of the experiment is shown as follows:
+
+
+```py
+default_mse = np.sqrt(np.sum((normilized_data - noizy_signal) ** 2)) / 279
+filtered_mse = np.sqrt(np.sum((normilized_data - x) ** 2)) / 279
+
+## Plot results
+util.draw_graph(
+    G,
+    pos,
+    data[:, t],
+    image="Italy_Rome_noisy_signal_with_mse.png",
+    use_node_values=noizy_signal,
+    fig_title=f"Noizy Signal - MSE: {default_mse:.4f}",
+)
+util.draw_graph(
+    G,
+    pos,
+    data[:, t],
+    image="Italy_Rome_filtered_signal.png",
+    use_node_values=x,
+    fig_title=f"Filtered Signal - MSE: {filtered_mse:.4f}",
+)
+```
+
+<p>
+	<img src="doc/py_figs/Italy_Rome_noisy_signal_with_mse.png" width="40%">
+	<img src="doc/py_figs/Italy_Rome_filtered_signal.png" width="40%">
+</p>
+
 
 
 ## Utility functions
-### plotting
+
+### plotting graph
 
 ```py
-draw_graph(G, pos, data=None, image=None)
+util.draw_graph(
+    G,
+    pos,
+    data=None,
+    image=None,
+    fig_titile=None,
+    use_node_values=None,
+    node_value_disabled=False,
+)
 ```
 
 Draw the graph `G` with `matplotlib`.
 
 You don't have to give `data` when you draw the graph `G` as a simple representation.
-If you want to draw the graph `G` reflecting signal values, you can give `data`.
+If you want to draw the graph `G` reflecting signal values, you need to give `data` at least.
 
 #### parameters:
 
@@ -132,41 +243,210 @@ If you want to draw the graph `G` reflecting signal values, you can give `data`.
 
 * `image` : string, optional
 
-    filename to save the image. 
+    filename to save the image.
+
+* `fig_titile` : string, optional
+
+    A title of figure
+
+* `use_node_values` : numpy array ($`N \times 1`$), optional
+
+    A numpy array representing signal values at time $`t`$. It is assumed that `use_node_values` has the normalized values of `data`.
+
+* `node_value_disabled` : bool, optional
+
+    Set `True` if you draw the graph `G` as a simple representation, otherwise `False`. When you don't set `data`, `node_value_disabled` automatically becomes `True` within the function.
 
 
 #### Example
 
 ```py
-import os
-import numpy as np
-from pygsp import graphs
-from util import draw_graph
-
-npz = np.load(os.path.join("dataset", "Italy_Rome.npz"))
-N, T, W, L, data, pos = npz["N"], npz["T"], npz["W"], npz["L"], npz["data"], npz["pos"]
-G = graphs.Graph(W)
-
-draw_graph(G, pos, image="Italy_Rome.png")
+util.draw_graph(G, pos, image="Italy_Rome.png", fig_title="Italy - Rome")
 ```
 
 #### Output
-![](doc/Italy_Rome.png)
+<img src="doc/py_figs/Italy_Rome.png" width="50%">
 
 #### Example
 
 ```py
-import os
-import numpy as np
-from pygsp import graphs
-from util import draw_graph
-
-npz = np.load(os.path.join("dataset", "Italy_Rome.npz"))
-N, T, W, L, data, pos = npz["N"], npz["T"], npz["W"], npz["L"], npz["data"], npz["pos"]
-G = graphs.Graph(W)
-
-draw_graph(G, pos, data[:, 0], image="Italy_Rome_signal.png")
+t = 0  # decide the signal time
+util.draw_graph(
+    G, pos, data[:, t], image="Italy_Rome_signal.png", fig_title="Italy - Rome"
+)
 ```
 
 #### Output
-![](doc/Italy_Rome_signal.png)
+
+<img src="doc/py_figs/Italy_Rome_signal.png" width="50%">
+
+
+### plotting filter
+
+
+```py
+util.save_filter(g, filter_name, fig_title=None)
+```
+
+Save the filter `g` you made.
+
+
+#### parameters:
+
+* `g` : filter
+
+    A filter you made.
+
+* `filter_name`: str
+
+    A figure filename of the filter.
+
+* `fig_title`: str, optional
+
+    A title of figure.
+
+
+#### Example
+
+```py
+util.save_filter(g, "Italy_Rome_filter.png", fig_title="Filter")
+```
+
+This output example is shown in the section of `Design Smooth Filter`.
+
+
+### plotting spectrum of graph signals
+
+```py
+util.save_gs_spectrum(
+    gft_signal, save_image_name, fig_title=None
+)
+```
+
+Save the spectrum of graph signals.
+
+
+#### parameters:
+
+* `gft_signal` : spectrum
+
+    Use the spectrum of graph signals.
+
+* `save_image_name`: str
+
+    A figure filename.
+
+* `fig_title`: str, optional
+
+    A title of figure.
+
+
+#### Example
+
+```py
+util.save_gs_spectrum(
+    f, save_image_name="Italy_Rome_spectrum.png", fig_title="Signal Spectrum"
+)
+```
+
+This output example is shown in the section of `Apply GFT to graph signals`.
+
+
+
+### Normalize graph signals
+
+```py
+normalize_graph_signal(graph_signal, axis=0)
+```
+
+Normalize the raw graph signals.
+
+#### parameters:
+
+* `graph_signal` : numpy array ($`N \times 1`$)
+
+    Graph signals
+
+* `axis` : int, optional
+
+    You can set 0 or 1. The processing is conducted along columns if axis=0.
+
+
+#### Example
+
+```py
+normilized_data = util.normalize_graph_signal(data[:, t])
+```
+
+
+### Design Smooth Filter
+
+```py
+gsp_design_smooth_indicator(G, a1, a2)
+```
+
+Design smooth filter for the graph `G`.
+You can keep frequencies of graph signals between `a1` and `a2` and reduce them in other ranges.
+
+#### parameters:
+
+* `G` : graph
+
+    A pygsp graph.
+
+* `a1` and `a2` : float
+
+    `a1` < `a2`. 
+
+
+#### Example
+
+```py
+g = util.gsp_design_smooth_indicator(G, 0, 0.5)
+util.save_filter(g, "Italy_Rome_filter.png", fig_title="Filter")
+```
+
+Please use `save_filter` to make the figure of constructed filters.
+
+#### Output
+
+<img src="doc/py_figs/Italy_Rome_filter.png" width="40%">
+
+
+### Apply GFT to graph signals
+
+```py
+apply_gft_to_signal(G, graph_signal)
+```
+
+`graph_signal` is transformed by using GFT.
+
+#### parameters:
+
+* `G` : graph
+
+    A pygsp graph.
+  
+* `graph_signal` : numpy array ($`N \times 1`$)
+
+    Raw graph signals
+
+
+#### Example
+
+```py
+f = util.apply_gft_to_signal(G, normilized_data)
+util.save_gs_spectrum(
+    f, save_image_name="Italy_Rome_spectrum.png", fig_title="Signal Spectrum"
+)
+```
+
+Please use `save_gs_spectrum` to make the figure of the spectrum of graph signals.
+
+#### Output
+
+<img src="doc/py_figs/Italy_Rome_spectrum.png" width="40%">
+
+
+
+
