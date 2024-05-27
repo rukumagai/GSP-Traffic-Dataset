@@ -42,8 +42,8 @@ figure;
 subplot(121);gsp_plot_signal_spectral(G,f);title("Signal Spectrum",FontSize=16);
 subplot(122);gsp_plot_filter(G,g);title("Filter",FontSize=16);
 
-default_mse = sqrt(sum((signal-noizy_signal).^2))/279;
-filtered_mse = sqrt(sum((signal-x).^2))/279;
+default_mse = sqrt(sum((signal-noizy_signal).^2))/G.N;
+filtered_mse = sqrt(sum((signal-x).^2))/G.N;
 
 % Plot results
 figure;

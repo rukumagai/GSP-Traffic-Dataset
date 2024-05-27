@@ -61,8 +61,8 @@ def main():
     )
     util.save_filter(g, "Italy_Rome_filter.png", fig_title="Filter")
 
-    default_mse = np.sqrt(np.sum((normilized_data - noizy_signal) ** 2)) / 279
-    filtered_mse = np.sqrt(np.sum((normilized_data - x) ** 2)) / 279
+    default_mse = np.sqrt(np.sum((normilized_data - noizy_signal) ** 2)) / G.N
+    filtered_mse = np.sqrt(np.sum((normilized_data - x) ** 2)) / G.N
 
     ## Plot results
     util.draw_graph(

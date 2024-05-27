@@ -92,6 +92,7 @@ def _save_graph(
     else:
         nx.draw_networkx_nodes(
             G=graphD,
+            nodelist=np.arange(len(position_dict)),
             pos=position_dict,
             node_color=use_node_values,
             cmap="turbo",
@@ -146,7 +147,11 @@ def gsp_design_smooth_indicator(G, a1, a2):
     lmax = G.lmax
     fx = lambda x, a: np.exp(-a / x) * (x >= 0)
     gx = lambda x, a: fx(x, a) / (fx(x, a) + fx(1 - x, a))
-    ffin = lambda x, a1, a2: gx(1 - (x - a1) / (a2 - a1), 1) * (x >= a1)
+    ffin = lambda x, a1, a2: np.where(
+        x >= a1, 
+        gx(1 - (x - a1) / (a2 - a1), 1),
+        np.where(x >= 0, 1, 0)
+    )
     g = lambda x: ffin(x / lmax, a1, a2)
     return filters.Filter(G, g)
 
