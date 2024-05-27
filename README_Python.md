@@ -84,7 +84,7 @@ If you use this dataset for your research, you may use this bibtex citation:
 ## Examples
 
 The examples use [pygsp](https://pygsp.readthedocs.io/en/stable/).
-If you would like to know the details of some functions, please go to the Github of pygsp.
+If you would like to know the details of some functions, please also refer to the Github of pygsp.
 
 ### Loading Data
 
